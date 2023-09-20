@@ -7,7 +7,7 @@ import statsmodels.stats.power as smp
 baseline_csv = 'baseline_clickthrough_rate.csv'
 
 df = pd.read_csv(baseline_csv)
-# print(df.head())
+print(df.head())
 
 # %%
 x_vals = [x * 100 for x in df['Clickthrough_Rate'].tolist()]
@@ -26,12 +26,13 @@ for x_i in x_vals:
 var = (sum / (k - 1)) * 2
 print(var)
 # %%
-delta_squared = (.05 - x_bar) ** 2
+delta_squared = (.05 - (x_bar / 100)) ** 2
 print(delta_squared)
 # %%
 z_crit_alpha = 1.96
 z_crit_beta = .84
 
-sample_size = ((z_crit_alpha + z_crit_beta) ** 2)
-print(sample_size)
+sample_size = (((z_crit_alpha + z_crit_beta) ** 2) * var) / delta_squared
+two_sample_size = sample_size * 2
+print(sample_size, two_sample_size)
 # %%
