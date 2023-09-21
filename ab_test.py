@@ -2,6 +2,7 @@
 import pandas as pd
 import numpy as np
 import statsmodels.stats.power as smp
+from scipy.stats import norm
 
 # %%
 baseline_csv = 'baseline_clickthrough_rate.csv'
@@ -35,4 +36,15 @@ z_crit_beta = .84
 sample_size = (((z_crit_alpha + z_crit_beta) ** 2) * var) / delta_squared
 two_sample_size = sample_size * 2
 print(sample_size, two_sample_size)
+# %%
+submissions_1 = 200
+submissions_2 = 235
+p1 = submissions_1 / sample_size
+p2 = submissions_1 / sample_size
+pooled_p = (p1 * sample_size + p2 * sample_size)/sample_size + sample_size
+se = np.sqrt((pooled_p * (1 - pooled_p)) * (1/sample_size + 1/sample_size))
+z = (p1 - p2) / se
+alpha = 0.05
+critical_val = norm.ppf(1 - alpha/2)
+print(z, critical_val)
 # %%
